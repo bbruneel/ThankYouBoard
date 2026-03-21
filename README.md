@@ -1,9 +1,9 @@
 # thankyouboard
 
-[![GitHub release](https://img.shields.io/github/v/release/bbruneel/java-25-spring-boot-4?include_prereleases&sort=semver)](https://github.com/bbruneel/java-25-spring-boot-4/releases)
-[![Build status](https://github.com/bbruneel/java-25-spring-boot-4/actions/workflows/build.yml/badge.svg)](https://github.com/bbruneel/java-25-spring-boot-4/actions/workflows/build.yml)
-[![Codecov](https://codecov.io/gh/bbruneel/java-25-spring-boot-4/graph/badge.svg)](https://codecov.io/gh/bbruneel/java-25-spring-boot-4)
-[![Contributors](https://img.shields.io/github/contributors/bbruneel/java-25-spring-boot-4)](https://github.com/bbruneel/java-25-spring-boot-4/graphs/contributors)
+[![GitHub release](https://img.shields.io/github/v/release/bbruneel/ThankYouBoard?include_prereleases&sort=semver)](https://github.com/bbruneel/ThankYouBoard/releases)
+[![Build status](https://github.com/bbruneel/ThankYouBoard/actions/workflows/build.yml/badge.svg)](https://github.com/bbruneel/ThankYouBoard/actions/workflows/build.yml)
+[![Codecov](https://codecov.io/gh/bbruneel/ThankYouBoard/graph/badge.svg)](https://codecov.io/gh/bbruneel/ThankYouBoard)
+[![Contributors](https://img.shields.io/github/contributors/bbruneel/ThankYouBoard)](https://github.com/bbruneel/ThankYouBoard/graphs/contributors)
 
 > **Badge setup:** Build status uses the [GitHub Actions workflow](.github/workflows/build.yml) (runs `mvn test`). For Codecov, connect this repo at [codecov.io](https://codecov.io) and add the upload step to the workflow if you want coverage reporting.
 
