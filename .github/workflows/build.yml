@@ -31,6 +31,14 @@ jobs:
       - name: Run tests
         run: mvn test -B
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: target/site/jacoco/jacoco.xml
+          flags: backend
+          fail_ci_if_error: true
+
       - name: Build Lambda functions
         run: cd functions && mvn package -B
 
@@ -62,14 +70,6 @@ jobs:
     environment: e2e    # use the "e2e" environment so its vars/secrets are available
     steps:
       - uses: actions/checkout@v4
-
-      - name: Print Auth0 E2E variables (vars only)
-        run: |
-          echo "AUTH0_AUDIENCE=${AUTH0_AUDIENCE:-(empty)}"
-          echo "AUTH0_DOMAIN=${AUTH0_DOMAIN:-(empty)}"
-          echo "AUTH0_E2E_EMAIL=${AUTH0_E2E_EMAIL:-(empty)}"
-          echo "VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN:-(empty)}"
-          echo "VITE_AUTH0_AUDIENCE=${VITE_AUTH0_AUDIENCE:-(empty)}"
 
       - name: Set up JDK 25
         uses: actions/setup-java@v4
