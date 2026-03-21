@@ -15,9 +15,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
-import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 
 import java.time.Instant;
@@ -104,7 +102,7 @@ public class SecurityConfig {
     ) {
         NimbusJwtDecoder decoder = (NimbusJwtDecoder) JwtDecoders.fromIssuerLocation(issuerUri);
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuerUri);
-        OAuth2TokenValidator<Jwt> withAudience = new AudienceValidator(audience);
+        OAuth2TokenValidator<Jwt> withAudience = new JwtAudienceValidator(audience);
         decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience));
         return decoder;
     }
@@ -120,27 +118,5 @@ public class SecurityConfig {
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusSeconds(3600))
                 .build();
-    }
-
-    private static final class AudienceValidator implements OAuth2TokenValidator<Jwt> {
-        private final String audience;
-
-        private AudienceValidator(String audience) {
-            this.audience = audience;
-        }
-
-        @Override
-        public OAuth2TokenValidatorResult validate(Jwt token) {
-            List<String> audiences = token.getAudience();
-            if (audiences != null && audiences.contains(audience)) {
-                return OAuth2TokenValidatorResult.success();
-            }
-            OAuth2Error err = new OAuth2Error(
-                    "invalid_token",
-                    "The required audience is missing",
-                    null
-            );
-            return OAuth2TokenValidatorResult.failure(err);
-        }
     }
 }

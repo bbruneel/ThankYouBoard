@@ -3,7 +3,6 @@ package org.bruneel.thankyouboard.images;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @Service
 @ConditionalOnProperty(value = "images.storage", havingValue = "s3")
-public class S3ImagePresignService implements ImagePresignService, AutoCloseable {
+public class S3ImagePresignService implements ImagePresignService {
 
     private final String bucket;
     private final String cdnBaseUrl;
@@ -24,19 +23,15 @@ public class S3ImagePresignService implements ImagePresignService, AutoCloseable
     private final S3Presigner presigner;
 
     public S3ImagePresignService(
+            S3Presigner presigner,
             @Value("${images.s3.bucket}") String bucket,
             @Value("${images.cdn.base-url}") String cdnBaseUrl,
-            @Value("${images.presign.expires-seconds:600}") int expiresInSeconds,
-            @Value("${images.s3.region:}") String region
+            @Value("${images.presign.expires-seconds:600}") int expiresInSeconds
     ) {
+        this.presigner = presigner;
         this.bucket = bucket;
         this.cdnBaseUrl = normalizeBase(cdnBaseUrl);
         this.expiresInSeconds = expiresInSeconds;
-        S3Presigner.Builder builder = S3Presigner.builder();
-        if (region != null && !region.isBlank()) {
-            builder.region(Region.of(region.trim()));
-        }
-        this.presigner = builder.build();
     }
 
     @Override
@@ -60,11 +55,6 @@ public class S3ImagePresignService implements ImagePresignService, AutoCloseable
 
         String imageUrl = cdnBaseUrl + "/images/" + key;
         return new PresignedUpload(presigned.url().toString(), imageUrl, expiresInSeconds, contentType);
-    }
-
-    @Override
-    public void close() {
-        presigner.close();
     }
 
     private static void validate(String contentType, long contentLengthBytes) {
@@ -97,4 +87,3 @@ public class S3ImagePresignService implements ImagePresignService, AutoCloseable
         return b;
     }
 }
-
