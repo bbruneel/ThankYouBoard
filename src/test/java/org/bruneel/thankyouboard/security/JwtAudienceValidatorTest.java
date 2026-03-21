@@ -26,6 +26,14 @@ class JwtAudienceValidatorTest {
     }
 
     @Test
+    void validate_succeedsWhenMultipleAudiencesAndOneMatches() {
+        JwtAudienceValidator validator = new JwtAudienceValidator("urn:api");
+        Jwt jwt = baseJwt().audience(List.of("urn:other", "urn:api")).build();
+
+        assertThat(validator.validate(jwt).hasErrors()).isFalse();
+    }
+
+    @Test
     void validate_failsWhenAudienceMissing() {
         JwtAudienceValidator validator = new JwtAudienceValidator("urn:api");
         Jwt jwt = baseJwt().audience(List.of("urn:other")).build();

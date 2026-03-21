@@ -18,9 +18,6 @@ import static org.mockito.Mockito.when;
 class GiphyServiceTest {
 
     @Mock
-    private RestClient.Builder restClientBuilder;
-
-    @Mock
     private RestClient restClient;
 
     private static RestClient.Builder createBuilderMock(RestClient restClient) {
