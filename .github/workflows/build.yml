@@ -1,0 +1,128 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+env:
+  AUTH0_AUDIENCE: ${{ vars.AUTH0_AUDIENCE }}
+  AUTH0_DOMAIN: ${{ vars.AUTH0_DOMAIN }}
+  AUTH0_E2E_EMAIL: ${{ vars.AUTH0_E2E_EMAIL }}
+  AUTH0_E2E_PASSWORD: ${{ secrets.AUTH0_E2E_PASSWORD }}
+  VITE_AUTH0_DOMAIN: ${{ vars.VITE_AUTH0_DOMAIN }}
+  VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
+  VITE_AUTH0_AUDIENCE: ${{ vars.VITE_AUTH0_AUDIENCE }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: e2e    # use the "e2e" environment so its vars/secrets are available
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run tests
+        run: mvn test -B
+
+      - name: Build Lambda functions
+        run: cd functions && mvn package -B
+
+      - name: Test Lambda functions
+        run: cd functions && mvn test -B
+
+      - name: Test CDK infra
+        run: cd infra && mvn test -B
+
+      - name: Set up Node (for CDK)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.1'
+
+      - name: Install AWS CDK CLI
+        run: npm install -g aws-cdk
+
+      - name: CDK synth (test env)
+        run: |
+          cd infra
+          mvn compile -B
+          : "${AUTH0_DOMAIN:?AUTH0_DOMAIN GitHub variable is required for CDK synth}"
+          : "${AUTH0_AUDIENCE:?AUTH0_AUDIENCE GitHub variable is required for CDK synth}"
+          cdk synth -c env=test -c auth0Domain="${AUTH0_DOMAIN}" -c auth0Audience="${AUTH0_AUDIENCE}"
+
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: e2e    # use the "e2e" environment so its vars/secrets are available
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Auth0 E2E variables (vars only)
+        run: |
+          echo "AUTH0_AUDIENCE=${AUTH0_AUDIENCE:-(empty)}"
+          echo "AUTH0_DOMAIN=${AUTH0_DOMAIN:-(empty)}"
+          echo "AUTH0_E2E_EMAIL=${AUTH0_E2E_EMAIL:-(empty)}"
+          echo "VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN:-(empty)}"
+          echo "VITE_AUTH0_AUDIENCE=${VITE_AUTH0_AUDIENCE:-(empty)}"
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.1'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build backend for E2E
+        run: mvn -q compile
+
+      - name: Start backend (E2E profile)
+        run: |
+          mvn spring-boot:run -Pe2e -Dspring-boot.run.profiles=e2e > backend.log 2>&1 & echo $! > backend.pid
+
+      - name: Wait for backend to be ready
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8080/actuator/health > /dev/null; then
+              echo "Backend is up"
+              break
+            fi
+            echo "Waiting for backend... (attempt $i/30)"
+            sleep 5
+          done
+          if ! curl -fsS http://localhost:8080/actuator/health > /dev/null; then
+            echo "Backend failed to start in time"
+            kill $BACKEND_PID 2>/dev/null || true
+            exit 1
+          fi
+          cd frontend
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Run Playwright E2E tests
+        working-directory: frontend
+        run: npm run test:e2e
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f backend.pid ]; then
+            kill "$(cat backend.pid)" 2>/dev/null || true
+            wait "$(cat backend.pid)" 2>/dev/null || true
+          fi
+          if [ -f backend.log ]; then
+            echo "--- Backend log ---"
+            cat backend.log
+          fi

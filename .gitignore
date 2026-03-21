@@ -1,0 +1,23 @@
+/.vscode
+/mvnw
+/mvnw.cmd
+/target
+**/application-secret.properties
+.env
+.env.local
+.env.*.local
+frontend/.env.local
+.m2/
+node
+*.log
+logs/
+.cursor/
+
+# CDK
+infra/cdk.out/
+infra/cdk.context.json
+infra/target/
+functions/target/
+
+# Local uploads
+.local-uploads/

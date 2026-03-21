@@ -1,0 +1,15 @@
+CREATE TABLE board (
+    id UUID PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    recipient_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE post (
+    id UUID PRIMARY KEY,
+    board_id UUID NOT NULL REFERENCES board(id) ON DELETE CASCADE,
+    author_name VARCHAR(255) NOT NULL,
+    message_text TEXT,
+    giphy_url VARCHAR(1000),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

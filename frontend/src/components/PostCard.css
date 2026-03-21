@@ -1,0 +1,167 @@
+.post-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    /* For masonry layout gap */
+    break-inside: avoid;
+    /* Prevent breaking across columns in masonry */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.post-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.post-image-button {
+    all: unset;
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+}
+
+.post-image-button img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.post-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.post-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    white-space: pre-wrap;
+}
+
+.post-text.rich-text-content {
+    white-space: normal;
+}
+
+.rich-text-content p {
+    margin: 0 0 0.5rem 0;
+}
+
+.rich-text-content p:last-child {
+    margin-bottom: 0;
+}
+
+.rich-text-content ul {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.rich-text-content ul li {
+    margin-bottom: 0.25rem;
+}
+
+.rich-text-content ul li p {
+    margin: 0;
+}
+
+.rich-text-content blockquote {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 0.5rem 0;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.rich-text-content strong {
+    font-weight: 700;
+}
+
+.rich-text-content em {
+    font-style: italic;
+}
+
+.rich-text-content u {
+    text-decoration: underline;
+}
+
+.post-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--card-border);
+    padding-top: 1rem;
+}
+
+.post-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.post-action-btn {
+    margin-left: 0;
+}
+
+.post-author {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.image-lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.image-lightbox-content {
+    position: relative;
+    max-width: min(95vw, 1200px);
+    max-height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-lightbox-img {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+    object-fit: contain;
+}
+
+.image-lightbox-close {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.75rem;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 9999px;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #111827;
+    background: #ffffff;
+}

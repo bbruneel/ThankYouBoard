@@ -1,0 +1,3 @@
+ALTER TABLE post
+    ADD COLUMN IF NOT EXISTS uploaded_image_url VARCHAR(1000);
+
