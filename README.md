@@ -54,6 +54,7 @@ Built with **Java 25 + Spring Boot 4** on the backend and **React 19 + Vite 7** 
    spring.datasource.password=your-postgres-password
    # Optional configurations
    # GIPHY_API_KEY=your-giphy-key
+   # GRAFANA_OTLP_HEADERS=Basic <your-base64-credentials>
    ```
 3. Export Auth0 variables and start the server:
    ```bash
