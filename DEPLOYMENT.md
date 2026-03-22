@@ -64,9 +64,9 @@ With light usage (e.g. 1000 requests/day): typically under $5/month.
 |------|-----------------|--------------|
 | **AWS CLI** | 2.x | [Install guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) |
 | **AWS CDK CLI** | 2.x | `npm install -g aws-cdk` |
-| **Java (JDK)** | 21 | [Eclipse Temurin](https://adoptium.net/) or Amazon Corretto |
+| **Java (JDK)** | 25 | Any compatible JDK (e.g., [Eclipse Temurin](https://adoptium.net/)) |
 | **Apache Maven** | 3.9+ | [Download](https://maven.apache.org/download.cgi) |
-| **Node.js + npm** | 18+ | [Download](https://nodejs.org/) |
+| **Node.js + npm** | 20+ | [Download](https://nodejs.org/) |
 | **Docker** | 20+ | [Install guide](https://docs.docker.com/get-docker/) |
 
 ---
