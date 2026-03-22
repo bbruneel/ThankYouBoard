@@ -63,6 +63,19 @@ The `infra/` directory contains a CDK Java project for deploying to AWS. See `DE
 
 ---
 
+## 🏠 Local Dev (WSL) Specific Instructions
+**ATTENTION AGENTS:** Apply these instructions when running locally on the user's machine (e.g., inside WSL).
+
+### System Dependencies
+- **Java 25 (Oracle)** and **Maven 3.8.7** are pre-installed and available in the `PATH`. You do not need to export `JAVA_HOME` manually.
+- **Node.js v24 + npm** are pre-installed and available in the `PATH`. Use standard `npm` commands.
+
+### Running the Application Locally
+- **Backend:** Run `mvn spring-boot:run`. If you encounter IPv4 Supabase connection errors, fallback to the in-memory H2 database by running: `mvn spring-boot:run -Pe2e -Dspring-boot.run.profiles=e2e`
+- **Frontend:** Variables like `VITE_AUTH0_DOMAIN` should be placed in `frontend/.env.local`.
+
+---
+
 ## ☁️ Cursor Cloud VM Specific Instructions
 **ATTENTION AGENTS:** Only apply the following instructions if you are running inside the official Cursor Cloud VM. If you are running locally on the user's machine (e.g., inside WSL), DO NOT assume these paths exist out of the box and DO NOT attempt to start PostgreSQL exactly according to these instructions.
 
