@@ -126,8 +126,14 @@ function DashboardWithAuth0() {
                         });
                     }
                 }
-            } catch {
+            } catch (err) {
                 setBoards([]);
+                if (!hasTriggeredAuth0Logout) {
+                    setHasTriggeredAuth0Logout(true);
+                    logout({
+                        logoutParams: { returnTo: window.location.origin },
+                    });
+                }
             } finally {
                 setLoading(false);
             }
@@ -284,7 +290,11 @@ function DashboardWithAuth0() {
                                         referrerPolicy="no-referrer"
                                     />
                                     <div className="user-info">
-                                        <span className="user-name">{user?.name || user?.email?.split('@')[0]}</span>
+                                        <span className="user-name">
+                                            {user?.name === user?.email
+                                                ? user?.email?.split('@')[0]
+                                                : (user?.name || user?.email?.split('@')[0])}
+                                        </span>
                                         <span className="user-email">{user?.email}</span>
                                     </div>
                                     <button
