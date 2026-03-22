@@ -52,14 +52,15 @@ Built with **Java 25 + Spring Boot 4** on the backend and **React 19 + Vite 7** 
 2. Configure your environment by creating `src/main/resources/application-secret.properties`:
    ```properties
    spring.datasource.password=your-postgres-password
+   AUTH0_DOMAIN=your-tenant.us.auth0.com
+   AUTH0_AUDIENCE=urn:your-api
+   
    # Optional configurations
    # GIPHY_API_KEY=your-giphy-key
    # GRAFANA_OTLP_HEADERS=Basic <your-base64-credentials>
    ```
-3. Export Auth0 variables and start the server:
+3. Start the server:
    ```bash
-   export AUTH0_DOMAIN=your-tenant.us.auth0.com
-   export AUTH0_AUDIENCE=urn:your-api
    mvn spring-boot:run
    ```
    *The backend will be available at `http://localhost:8080`.*
@@ -70,11 +71,11 @@ Built with **Java 25 + Spring Boot 4** on the backend and **React 19 + Vite 7** 
    cd frontend
    npm install
    ```
-2. Configure frontend environment variables:
-   ```bash
-   export VITE_AUTH0_DOMAIN=your-tenant.us.auth0.com
-   export VITE_AUTH0_CLIENT_ID=your-auth0-client-id
-   export VITE_AUTH0_AUDIENCE=urn:your-api
+2. Configure frontend environment variables by creating `.env.local` in the `frontend` directory:
+   ```env
+   VITE_AUTH0_DOMAIN=your-tenant.us.auth0.com
+   VITE_AUTH0_CLIENT_ID=your-auth0-client-id
+   VITE_AUTH0_AUDIENCE=urn:your-api
    ```
 3. Start the Vite dev server:
    ```bash
