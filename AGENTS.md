@@ -8,9 +8,9 @@ This is a Java 25 + Spring Boot 4 application with a React 19 + Vite 7 frontend.
 ```text
 ThankYouBoard/
 ├── frontend/                     # React 19 + Vite 7 frontend application
-├── functions/                    # AWS Lambda handlers & models
+├── functions/                    # AWS Lambda handlers & models (feature parity with Spring Boot backend)
 ├── infra/                        # AWS CDK infrastructure code
-└── src/main/java/org/.../        # Spring Boot backend
+└── src/main/java/org/.../        # Spring Boot backend (feature parity with AWS Lambda functions)
     ├── config/                   # Configuration classes
     ├── domain/                   # JPA Entities
     ├── repository/               # Spring Data JPA repositories
@@ -18,6 +18,8 @@ ThankYouBoard/
     ├── web/                      # REST controllers
     └── ...                       # security, validation, observability, images
 ```
+
+**Architectural Note:** The Spring Boot backend and the AWS Lambda functions in `functions/` have **strict feature parity**. They are alternative backends serving the exact same API. If you add a feature or fix a bug in one, you **MUST** ensure the equivalent change is made in the other unless instructed otherwise.
 
 | Service | Port | Command |
 |---------|------|---------|
