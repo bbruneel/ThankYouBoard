@@ -16,7 +16,7 @@ Built with **Java 25 + Spring Boot 4** on the backend and **React 19 + Vite 7** 
 - **Anonymous Posting**: Anyone with the board link can read and add posts anonymously.
 - **Rich Media**: Supports text messages, user-uploaded images, and Giphy GIF integration.
 - **PDF Export**: Generate high-quality PDF exports of message boards.
-- **Modern UI**: A responsive, premium dark-themed interface with smooth micro-interactions.
+- **Modern UI**: A responsive, premium interface with light/dark theme support and smooth micro-interactions.
 - **Dual Backend Support**: Run as a traditional Spring Boot application or deploy as serverless AWS Lambda functions.
 
 ---
