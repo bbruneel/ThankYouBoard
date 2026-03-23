@@ -8,6 +8,7 @@ import org.bruneel.thankyouboard.handler.ZonedDateTimeAdapter;
 import org.bruneel.thankyouboard.model.Post;
 import org.bruneel.thankyouboard.repository.BoardRepository;
 import org.bruneel.thankyouboard.repository.PostRepository;
+import org.bruneel.thankyouboard.util.DomainIds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.lambda.powertools.tracing.Tracing;
@@ -131,7 +132,7 @@ public class PostsService {
                 return ResponseUtil.jsonResponse(409, Map.of("error", "Board post limit reached (" + maxPostsPerBoard + ")."));
             }
             ZonedDateTime now = ZonedDateTime.now();
-            Post post = new Post(UUID.randomUUID(), boardId, authorName, messageText, giphyUrl, uploadedImageUrl, now);
+            Post post = new Post(DomainIds.newDomainId(), boardId, authorName, messageText, giphyUrl, uploadedImageUrl, now);
 
             var issued = capabilityTokenService.issueToken();
             post.setCapabilityTokenHash(issued.tokenHashHex());

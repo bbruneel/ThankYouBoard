@@ -21,6 +21,13 @@ ThankYouBoard/
 
 **Architectural Note:** The Spring Boot backend and the AWS Lambda functions in `functions/` have **strict feature parity**. They are alternative backends serving the exact same API. If you add a feature or fix a bug in one, you **MUST** ensure the equivalent change is made in the other unless instructed otherwise.
 
+### Identifiers (UUID) Policy
+
+- **Persisted domain IDs must be UUID v7:** `board.id`, `post.id`, and `pdf_job.job_id` on both Spring and Lambda backends.
+- **Operational IDs remain UUID v4:** request correlation IDs, upload/object key random suffixes, and PDF renderer fallback random IDs.
+- **Historical records are allowed to be mixed:** do not migrate existing rows/items only to change UUID version.
+- **When adding new ID generation paths:** follow this policy and update both backends to preserve feature parity.
+
 | Service | Port | Command |
 |---------|------|---------|
 | Spring Boot backend | 8080 | `mvn spring-boot:run` (from repo root) |

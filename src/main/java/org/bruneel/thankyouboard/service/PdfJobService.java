@@ -71,7 +71,6 @@ public class PdfJobService {
 
     public PdfJob createJob(UUID boardId, String ownerId, String timeZoneId) {
         PdfJob job = new PdfJob();
-        job.setJobId(UUID.randomUUID());
         job.setBoardId(boardId);
         job.setOwnerId(ownerId);
         job.setStatus(PdfJob.Status.PENDING);
