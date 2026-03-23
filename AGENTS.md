@@ -92,25 +92,20 @@ The `infra/` directory contains a CDK Java project for deploying to AWS. See `DE
 ## ☁️ Cursor Cloud VM Specific Instructions
 **ATTENTION AGENTS:** Only apply the following instructions if you are running inside the official Cursor Cloud VM. If you are running locally on the user's machine (e.g., inside WSL), DO NOT assume these paths exist out of the box and DO NOT attempt to start PostgreSQL exactly according to these instructions.
 
-### VM System Dependencies (pre-installed in VM)
-- **Java 25 (Temurin)** at `/usr/lib/jvm/java-25-temurin` — `JAVA_HOME` is set in `~/.bashrc`
-- **Maven 3.9.9** at `/opt/maven`
-- **PostgreSQL 16** — local instance, user `postgres` / password `postgres`
+### VM System Dependencies (installed by update script)
+- **Java 25 (Temurin)** at `/usr/lib/jvm/temurin-25-jdk-amd64` — `JAVA_HOME` is set in `~/.bashrc`
+- **Maven 3.9.9** at `/opt/apache-maven-3.9.9` — symlinked to `/usr/local/bin/mvn`
 - **Node.js 22 + npm** — used by the frontend
+- **Playwright browsers** — installed via `npx playwright install --with-deps`
 
 ### Running the Backend (inside VM only)
-The default `application.properties` points to a remote Supabase PostgreSQL instance. For local dev, the file `src/main/resources/application-secret.properties` (git-ignored) overrides the datasource to `localhost:5432` with user/password `postgres/postgres`.
-
-Start PostgreSQL before the backend:
+The simplest and recommended approach is the **E2E profile with H2 in-memory DB** (no PostgreSQL needed):
 ```bash
-sudo pg_ctlcluster 16 main start
+export JAVA_HOME=/usr/lib/jvm/temurin-25-jdk-amd64
+mvn spring-boot:run -Pe2e -Dspring-boot.run.profiles=e2e
 ```
 
-Then start the backend:
-```bash
-export JAVA_HOME=/usr/lib/jvm/java-25-temurin
-mvn spring-boot:run
-```
+Alternatively, if you need a persistent PostgreSQL database, install and start PostgreSQL 16, then use `application-secret.properties` (git-ignored) to override the datasource to `localhost:5432` with user/password `postgres/postgres`, and run `mvn spring-boot:run`.
 
 ### Cloud-agent secret config guidance
 For Cursor Cloud sessions, configure these secrets so Frontend E2E can run without manual env setup:
