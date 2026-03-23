@@ -9,6 +9,7 @@ import org.bruneel.thankyouboard.model.Board;
 import org.bruneel.thankyouboard.model.Post;
 import org.bruneel.thankyouboard.repository.BoardRepository;
 import org.bruneel.thankyouboard.repository.PostRepository;
+import org.bruneel.thankyouboard.util.DomainIds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.services.dynamodb.model.ConditionalCheckFailedException;
@@ -108,7 +109,7 @@ public class BoardsService {
                 ));
             }
 
-            Board board = new Board(UUID.randomUUID(), ownerId, title, recipientName, ZonedDateTime.now());
+            Board board = new Board(DomainIds.newDomainId(), ownerId, title, recipientName, ZonedDateTime.now());
             boardRepository.save(board);
             return ResponseUtil.jsonResponse(200, board);
         } catch (Exception e) {

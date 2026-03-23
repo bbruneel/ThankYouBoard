@@ -1,6 +1,7 @@
 package org.bruneel.thankyouboard.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -12,6 +13,7 @@ public class PdfJob {
     public enum Status { PENDING, RUNNING, SUCCEEDED, FAILED }
 
     @Id
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     @Column(name = "job_id")
     private UUID jobId;
 

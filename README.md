@@ -108,7 +108,7 @@ Built with **Java 25 + Spring Boot 4** on the backend and **React 19 + Vite 7** 
 
 For detailed information on the system architecture, API endpoints, AWS infrastructure, deployment instructions, and configuration limits please refer to:
 - [`CONFIGURATION.md`](CONFIGURATION.md) - Full reference for environment variables and application limits.
-- [`AGENTS.md`](AGENTS.md) - General architecture and local development guidelines.
+- [`AGENTS.md`](AGENTS.md) - General architecture, local development guidelines, and UUID identifier policy.
 - [`DEPLOYMENT.md`](DEPLOYMENT.md) - AWS deployment configuration using CDK.
 
 ---

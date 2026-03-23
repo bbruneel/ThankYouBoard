@@ -8,6 +8,7 @@ import org.bruneel.thankyouboard.model.Post;
 import org.bruneel.thankyouboard.repository.BoardRepository;
 import org.bruneel.thankyouboard.repository.PdfJobRepository;
 import org.bruneel.thankyouboard.repository.PostRepository;
+import org.bruneel.thankyouboard.util.DomainIds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -94,7 +95,7 @@ public class PdfJobService {
                     }
 
                     ZonedDateTime now = ZonedDateTime.now();
-                    PdfJob job = new PdfJob(UUID.randomUUID(), boardId, ownerId,
+                    PdfJob job = new PdfJob(DomainIds.newDomainId(), boardId, ownerId,
                             PdfJob.Status.PENDING, now, now);
                     pdfJobRepository.save(job);
 
