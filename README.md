@@ -21,6 +21,36 @@ Built with a **Java 25 + Spring Boot 4** or a feature parity **Java 25 AWS Serve
 
 ---
 
+## Screenshots
+
+The following screenshots show the main flows in the web app: creating a board, adding a post, viewing the board, and switching between light and dark themes.
+
+### Create a board
+
+Signed-in users can create a new thank-you board and give it a title. The board gets its own shareable link for collaborators and anonymous visitors.
+
+![Create a new thank-you board](docs/images/1-create-board.png)
+
+### Add a post
+
+Contributors can add messages with text, uploaded images, or GIFs (when Giphy is configured), so each thank-you feels personal.
+
+![Add a post with text and media](docs/images/2-create-post.png)
+
+### Board overview
+
+The board view brings posts together in one place so everyone can read messages and see shared media at a glance.
+
+![Thank you board with posts](docs/images/3-board-overview.png)
+
+### Light and dark theme
+
+The interface supports light and dark themes so reading and posting stays comfortable in different environments.
+
+![Switch between light and dark theme](docs/images/4-switch-theme.png)
+
+---
+
 ## 🛠 Tech Stack
 
 | Component | Technology |
