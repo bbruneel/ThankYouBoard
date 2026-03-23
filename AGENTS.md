@@ -21,6 +21,11 @@ ThankYouBoard/
 
 **Architectural Note:** The Spring Boot backend and the AWS Lambda functions in `functions/` have **strict feature parity**. They are alternative backends serving the exact same API. If you add a feature or fix a bug in one, you **MUST** ensure the equivalent change is made in the other unless instructed otherwise.
 
+| Service | Port | Command |
+|---------|------|---------|
+| Spring Boot backend | 8080 | `mvn spring-boot:run` (from repo root) |
+| React/Vite frontend | 5173 | `npm run dev` (from `frontend/`) |
+
 ### Identifiers (UUID) Policy
 
 - **Persisted domain IDs must be UUID v7:** `board.id`, `post.id`, and `pdf_job.job_id` on both Spring and Lambda backends.
@@ -28,10 +33,9 @@ ThankYouBoard/
 - **Historical records are allowed to be mixed:** do not migrate existing rows/items only to change UUID version.
 - **When adding new ID generation paths:** follow this policy and update both backends to preserve feature parity.
 
-| Service | Port | Command |
-|---------|------|---------|
-| Spring Boot backend | 8080 | `mvn spring-boot:run` (from repo root) |
-| React/Vite frontend | 5173 | `npm run dev` (from `frontend/`) |
+### Local-agent secret config guidance
+For local development, frontend secrets (`VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT_ID`, `VITE_AUTH0_AUDIENCE`, `AUTH0_E2E_EMAIL`, `AUTH0_E2E_PASSWORD`) are expected to be in `frontend/.env.local`. 
+**CRITICAL:** This file is git-ignored. If you need these secrets and the file is missing, you MUST ask the user to provide them or create the file.
 
 ### Database Migrations
 - **Tool:** Flyway

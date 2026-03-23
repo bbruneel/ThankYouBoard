@@ -6,7 +6,7 @@
 [![Contributors](https://img.shields.io/github/contributors/bbruneel/ThankYouBoard)](https://github.com/bbruneel/ThankYouBoard/graphs/contributors)
 
 A modern, full-stack application for creating and sharing "Thank You" message boards. 
-Built with **Java 25 + Spring Boot 4** on the backend and **React 19 + Vite 7** on the frontend.
+Built with a **Java 25 + Spring Boot 4** or a feature parity **Java 25 AWS Serverless** backend and a **React 19 + Vite 7** frontend.
 
 ---
 
