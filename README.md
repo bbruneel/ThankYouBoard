@@ -56,10 +56,10 @@ The interface supports light and dark themes so reading and posting stays comfor
 | Component | Technology |
 |-----------|------------|
 | **Frontend** | React 19, Vite 7, TypeScript |
-| **Backend** | Java 25, Spring Boot 4.0.x |
-| **Database** | PostgreSQL, Hibernate ORM 7.2, Flyway |
+| **Backend** | **Spring / App Runner:** Java 25, Spring Boot 4.0.x — **Serverless:** Java 25, AWS Lambda (same API) |
+| **Database** | **Spring:** PostgreSQL (Hibernate ORM 7.2, Flyway) — **Serverless:** Amazon DynamoDB |
 | **Security** | Auth0 (JWT) |
-| **Infrastructure**| AWS CDK (App Runner / Lambda + DynamoDB) |
+| **Infrastructure** | AWS CDK (App Runner + RDS, or Lambda + DynamoDB) |
 
 ---
 
