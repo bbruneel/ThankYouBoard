@@ -38,5 +38,8 @@
 
 ## Learned Signs
 
-(Signs added from observed failures will appear below)
+### Sign: WSL npm using Windows Node on UNC paths
+- **Trigger**: `npm install` fails with `CMD.EXE was started with the above path as the current directory`, `UNC paths are not supported`, or `esbuild` postinstall errors referencing `\\wsl.localhost\...`
+- **Instruction**: Put Linux `node`/`npm` first on `PATH` (system Node in WSL, nvm, fnm, or a portable Linux Node tarball). Do not use Windows `C:\Program Files\nodejs\npm` when the project directory is accessed via a UNC path.
+- **Added after**: Iteration 2 — `npm install` in `episodes-web/` failed until Linux npm was used.
 
