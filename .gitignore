@@ -19,6 +19,10 @@ infra/cdk.context.json
 infra/target/
 functions/target/
 
+# Python backend (local venv)
+backend/.venv/
+**/__pycache__/
+
 # Local uploads
 .local-uploads/
 # Ralph config (may contain API key)

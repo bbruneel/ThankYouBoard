@@ -18,7 +18,7 @@ Build a simple command-line todo application in TypeScript.
 
 ## Success Criteria
 
-1. [ ] Create a GET REST api on the episode enitity in the python codebase. API /episodes/ can list all episodes. API /episodes/{id} lists details of episode witd id {id}
+1. [x] Create a GET REST api on the episode enitity in the python codebase. API /episodes/ can list all episodes. API /episodes/{id} lists details of episode witd id {id}
 2. [ ] set up vite server
 3. [ ] create all episodes web page running on vite server using tailwind shadcn ui react that queries GET REST api on the episode enitity
 4. [ ] create single episode webpage for individual episode based on id, they are links from the all episodes web page
