@@ -64,3 +64,17 @@
 - CI: `.github/workflows/episodes-web-e2e.yml` runs `npm ci`, `npx playwright install --with-deps chromium`, `npm run test:e2e` on `ubuntu-latest` when `episodes-web/` changes.
 - Local verification on this host failed: bundled Chromium needs system NSS libs (`libnspr4.so`); `sudo npx playwright install-deps` was not available. Use CI or install OS deps, then: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run test:e2e`.
 - Next criterion: open PR when ready (`RALPH_TASK.md` §6).
+
+### 2026-04-03 10:39:46
+**Session 5 ended** - Agent finished naturally (1 criteria remaining)
+
+### 2026-04-03 10:39:54
+**Session 6 started** (model request: auto (Cursor will resolve))
+
+### 2026-04-03 (iteration 6)
+- Verification: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run build` (passes). Local `npm run test:e2e` still fails on this host (Chromium needs `libnspr4.so`; `npx playwright install-deps` requires sudo). E2E is covered by `.github/workflows/episodes-web-e2e.yml` on `ubuntu-latest` after PR push.
+- Opened PR `features/frontend` → `main` via `gh pr create` (CI should run Episodes web E2E workflow).
+- `RALPH_TASK.md` §6 checked off.
+
+### 2026-04-03 (iteration 6 end)
+**Session 6 ended** - All success criteria complete.

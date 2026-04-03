@@ -23,7 +23,7 @@ Build a simple command-line todo application in TypeScript.
 3. [x] create all episodes web page running on vite server using tailwind shadcn ui react that queries GET REST api on the episode enitity
 4. [x] create single episode webpage for individual episode based on id, they are links from the all episodes web page
 5. [x] create playwright tests for all episodes page and single episode page
-6. [ ] create PR when everything is done and tests are successfull
+6. [x] create PR when everything is done and tests are successfull
 
 ## Scaffolding Notes
 
