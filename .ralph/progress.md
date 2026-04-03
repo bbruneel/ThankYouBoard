@@ -41,3 +41,14 @@
 - `episodes-web/`: Tailwind v4 (`@tailwindcss/vite`), shadcn (radix-nova preset), Geist font. `EpisodesPage` loads `GET /episodes/` via `fetch` and lists episodes in shadcn `Card` components with skeleton loading state.
 - Verification: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run build` (passes). Dev: run FastAPI on 8000 + `npm run dev` in `episodes-web` (proxy `/episodes` → backend).
 - Next criterion: single episode page by id with links from list (`RALPH_TASK.md` §4).
+
+### 2026-04-03 10:34:52
+**Session 3 ended** - Agent finished naturally (3 criteria remaining)
+
+### 2026-04-03 10:34:58
+**Session 4 started** (model request: auto (Cursor will resolve))
+
+### 2026-04-03 (iteration 4)
+- `episodes-web/`: Added `react-router-dom`, `BrowserRouter` routes `/` (list) and `/episodes/:id` (detail). New `EpisodeDetailPage` fetches `GET /episodes/{id}` with loading, 404, and invalid-id handling. List page wraps each `Card` in `Link` to the detail route.
+- Verification: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run build` (passes).
+- Next criterion: Playwright tests for list + detail pages (`RALPH_TASK.md` §5).

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Card,
@@ -78,21 +79,27 @@ export function EpisodesPage() {
           : null}
 
         {episodes?.map((ep) => (
-          <Card key={ep.id}>
-            <CardHeader>
-              <CardTitle>
-                <span className="text-muted-foreground mr-2 font-normal">
-                  #{ep.id}
-                </span>
-                {ep.title}
-              </CardTitle>
-              {ep.summary ? (
-                <CardDescription>{ep.summary}</CardDescription>
-              ) : (
-                <CardDescription className="italic">No summary</CardDescription>
-              )}
-            </CardHeader>
-          </Card>
+          <Link
+            key={ep.id}
+            to={`/episodes/${ep.id}`}
+            className="focus-visible:ring-ring block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          >
+            <Card className="transition-colors hover:bg-accent/40">
+              <CardHeader>
+                <CardTitle>
+                  <span className="text-muted-foreground mr-2 font-normal">
+                    #{ep.id}
+                  </span>
+                  {ep.title}
+                </CardTitle>
+                {ep.summary ? (
+                  <CardDescription>{ep.summary}</CardDescription>
+                ) : (
+                  <CardDescription className="italic">No summary</CardDescription>
+                )}
+              </CardHeader>
+            </Card>
+          </Link>
         ))}
       </section>
     </div>
