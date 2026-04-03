@@ -43,3 +43,13 @@
 - **Instruction**: Put Linux `node`/`npm` first on `PATH` (system Node in WSL, nvm, fnm, or a portable Linux Node tarball). Do not use Windows `C:\Program Files\nodejs\npm` when the project directory is accessed via a UNC path.
 - **Added after**: Iteration 2 — `npm install` in `episodes-web/` failed until Linux npm was used.
 
+### Sign: Portable Node in this repo
+- **Trigger**: `node` is not on `PATH` but the repo ships `.tools/node-v24-linux-x64/bin/node`
+- **Instruction**: Prepend `ThankYouBoard/.tools/node-v24-linux-x64/bin` to `PATH` before running `npm`/`npx` in `episodes-web/`.
+- **Added after**: Iteration 3 — Cursor sandbox had no system `node`; portable toolchain worked.
+
+### Sign: shadcn CLI TLS / corporate proxy
+- **Trigger**: `shadcn init` or `shadcn add` fails with `self-signed certificate in certificate chain` when fetching `ui.shadcn.com`
+- **Instruction**: Run that one CLI command with `NODE_TLS_REJECT_UNAUTHORIZED=0`, or install the corporate root CA into Node; do not leave TLS verification disabled globally.
+- **Added after**: Iteration 3 — `shadcn init` failed until TLS bypass for the single invocation.
+

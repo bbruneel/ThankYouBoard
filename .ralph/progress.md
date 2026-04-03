@@ -30,3 +30,14 @@
 
 ### 2026-04-03 10:22:37
 **Session 2 started** (model request: auto (Cursor will resolve))
+
+### 2026-04-03 10:26:35
+**Session 2 ended** - 🔄 Context rotation (token limit reached)
+
+### 2026-04-03 10:26:41
+**Session 3 started** (model request: auto (Cursor will resolve))
+
+### 2026-04-03 (iteration 3)
+- `episodes-web/`: Tailwind v4 (`@tailwindcss/vite`), shadcn (radix-nova preset), Geist font. `EpisodesPage` loads `GET /episodes/` via `fetch` and lists episodes in shadcn `Card` components with skeleton loading state.
+- Verification: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run build` (passes). Dev: run FastAPI on 8000 + `npm run dev` in `episodes-web` (proxy `/episodes` → backend).
+- Next criterion: single episode page by id with links from list (`RALPH_TASK.md` §4).
