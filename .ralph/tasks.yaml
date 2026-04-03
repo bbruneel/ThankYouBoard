@@ -1,0 +1,51 @@
+# Ralph Task Cache
+# Auto-generated from RALPH_TASK.md
+# DO NOT EDIT - regenerated on task file change
+
+source_file: RALPH_TASK.md
+source_mtime: 1775204357
+generated_at: 2026-04-03T08:21:34Z
+
+tasks:
+  - id: "line_21"
+    line_number: 21
+    status: pending
+    parallel_group: 999999
+    description: Create a GET REST api on the episode enitity in the python codebase. API /episodes/ can list all episodes. API /episodes/{id} lists details of episode witd id {id}
+    indent_level: 0
+    raw_marker: 1.
+  - id: "line_22"
+    line_number: 22
+    status: pending
+    parallel_group: 999999
+    description: set up vite server
+    indent_level: 0
+    raw_marker: 2.
+  - id: "line_23"
+    line_number: 23
+    status: pending
+    parallel_group: 999999
+    description: create all episodes web page running on vite server using tailwind shadcn ui react that queries GET REST api on the episode enitity
+    indent_level: 0
+    raw_marker: 3.
+  - id: "line_24"
+    line_number: 24
+    status: pending
+    parallel_group: 999999
+    description: create single episode webpage for individual episode based on id, they are links from the all episodes web page
+    indent_level: 0
+    raw_marker: 4.
+  - id: "line_25"
+    line_number: 25
+    status: pending
+    parallel_group: 999999
+    description: create playwright tests for all episodes page and single episode page
+    indent_level: 0
+    raw_marker: 5.
+  - id: "line_26"
+    line_number: 26
+    status: pending
+    parallel_group: 999999
+    description: create PR when everything is done and tests are successfull
+    indent_level: 0
+    raw_marker: 6.

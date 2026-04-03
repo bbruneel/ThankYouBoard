@@ -21,3 +21,5 @@ functions/target/
 
 # Local uploads
 .local-uploads/
+# Ralph config (may contain API key)
+.cursor/ralph-config.json
