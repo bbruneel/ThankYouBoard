@@ -1,0 +1,40 @@
+name: Episodes web E2E
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - "episodes-web/**"
+      - ".github/workflows/episodes-web-e2e.yml"
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - "episodes-web/**"
+      - ".github/workflows/episodes-web-e2e.yml"
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: episodes-web
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.13.1"
+          cache: npm
+          cache-dependency-path: episodes-web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium + OS deps
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright E2E
+        run: npm run test:e2e
+        env:
+          CI: "true"

@@ -53,3 +53,8 @@
 - **Instruction**: Run that one CLI command with `NODE_TLS_REJECT_UNAUTHORIZED=0`, or install the corporate root CA into Node; do not leave TLS verification disabled globally.
 - **Added after**: Iteration 3 — `shadcn init` failed until TLS bypass for the single invocation.
 
+### Sign: Playwright browser missing shared libraries (WSL / minimal Linux)
+- **Trigger**: `playwright test` fails at launch with `error while loading shared libraries: libnspr4.so` (or similar NSS/ALSA libs), or `Host system is missing dependencies`
+- **Instruction**: On Debian/Ubuntu/WSL, run `sudo npx playwright install-deps` from `episodes-web/` (or `sudo apt-get install` the packages Playwright prints). Prefer Linux `node`/`npm` on `PATH` (repo `.tools/node-v24-linux-x64/bin`) before Windows npm on UNC paths.
+- **Added after**: Iteration 5 — Chromium launched but system NSS libraries were absent until `install-deps`; CI on `ubuntu-latest` with `playwright install --with-deps` is the reliable verifier.
+

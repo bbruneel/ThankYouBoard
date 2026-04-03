@@ -52,3 +52,15 @@
 - `episodes-web/`: Added `react-router-dom`, `BrowserRouter` routes `/` (list) and `/episodes/:id` (detail). New `EpisodeDetailPage` fetches `GET /episodes/{id}` with loading, 404, and invalid-id handling. List page wraps each `Card` in `Link` to the detail route.
 - Verification: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run build` (passes).
 - Next criterion: Playwright tests for list + detail pages (`RALPH_TASK.md` §5).
+
+### 2026-04-03 10:36:21
+**Session 4 ended** - Agent finished naturally (2 criteria remaining)
+
+### 2026-04-03 10:36:28
+**Session 5 started** (model request: auto (Cursor will resolve))
+
+### 2026-04-03 (iteration 5)
+- `episodes-web/`: Added `@playwright/test`, `playwright.config.ts` (Vite dev server on **5174**, `webServer` + `baseURL`), `e2e/episodes.spec.ts` with `page.route` mocks for `GET /episodes/` and `GET /episodes/{id}` (no FastAPI required). Tests cover list page, detail page, list→detail navigation, 404 for unknown id. `package.json` scripts: `test:e2e`, `test:e2e:ui`.
+- CI: `.github/workflows/episodes-web-e2e.yml` runs `npm ci`, `npx playwright install --with-deps chromium`, `npm run test:e2e` on `ubuntu-latest` when `episodes-web/` changes.
+- Local verification on this host failed: bundled Chromium needs system NSS libs (`libnspr4.so`); `sudo npx playwright install-deps` was not available. Use CI or install OS deps, then: `export PATH="$REPO/.tools/node-v24-linux-x64/bin:$PATH" && cd episodes-web && npm run test:e2e`.
+- Next criterion: open PR when ready (`RALPH_TASK.md` §6).
