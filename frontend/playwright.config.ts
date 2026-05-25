@@ -39,7 +39,11 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        // CI uses system Chrome from apt to avoid flaky Playwright CDN browser downloads.
+        ...(process.env.CI ? { channel: 'chrome' as const } : {}),
+      },
     },
   ],
 });

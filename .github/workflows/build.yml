@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: e2e    # use the "e2e" environment so its vars/secrets are available
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up JDK 25
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '25'
           distribution: 'temurin'
@@ -32,7 +32,7 @@ jobs:
         run: mvn test -B
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: target/site/jacoco/jacoco.xml
@@ -49,9 +49,9 @@ jobs:
         run: cd infra && mvn test -B
 
       - name: Set up Node (for CDK)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '24.13.1'
+          node-version: '24.16.0'
 
       - name: Install AWS CDK CLI
         run: npm install -g aws-cdk
@@ -69,47 +69,63 @@ jobs:
     runs-on: ubuntu-latest
     environment: e2e    # use the "e2e" environment so its vars/secrets are available
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up JDK 25
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '25'
           distribution: 'temurin'
           cache: maven
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '24.13.1'
+          node-version: '24.16.0'
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install Chrome for Playwright (CI)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install Playwright system dependencies
+        working-directory: frontend
+        run: npx playwright install-deps chromium
+
       - name: Build backend for E2E
-        run: mvn -q compile
+        run: mvn -q -Pe2e package -DskipTests
 
       - name: Start backend (E2E profile)
         run: |
-          mvn spring-boot:run -Pe2e -Dspring-boot.run.profiles=e2e > backend.log 2>&1 & echo $! > backend.pid
+          java -jar target/thankyouboard-*.jar --spring.profiles.active=e2e > backend.log 2>&1 &
+          echo $! > backend.pid
 
       - name: Wait for backend to be ready
         run: |
-          for i in $(seq 1 30); do
+          for i in $(seq 1 60); do
             if curl -fsS http://localhost:8080/actuator/health > /dev/null; then
-              echo "Backend is up"
-              break
+              echo "Backend is up (attempt $i)"
+              exit 0
             fi
-            echo "Waiting for backend... (attempt $i/30)"
+            if [ -f backend.pid ] && ! kill -0 "$(cat backend.pid)" 2>/dev/null; then
+              echo "Backend process exited before becoming ready"
+              echo "--- Backend log ---"
+              cat backend.log || true
+              exit 1
+            fi
+            echo "Waiting for backend... (attempt $i/60)"
             sleep 5
           done
-          if ! curl -fsS http://localhost:8080/actuator/health > /dev/null; then
-            echo "Backend failed to start in time"
-            kill $BACKEND_PID 2>/dev/null || true
-            exit 1
-          fi
-          cd frontend
-          npm ci
-          npx playwright install --with-deps
+          echo "Backend failed to start in time"
+          echo "--- Backend log ---"
+          cat backend.log || true
+          exit 1
 
       - name: Run Playwright E2E tests
         working-directory: frontend

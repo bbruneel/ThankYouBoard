@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.3</version>
+		<version>4.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.bruneel</groupId>
@@ -28,8 +28,6 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
-		<!-- Hibernate ORM 7.2: https://hibernate.org/orm/releases/7.2/ -->
-		<hibernate.version>7.2.5.Final</hibernate.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,7 +62,7 @@
 		<dependency>
 			<groupId>io.opentelemetry.instrumentation</groupId>
 			<artifactId>opentelemetry-logback-appender-1.0</artifactId>
-			<version>2.22.0-alpha</version>
+			<version>2.28.1-alpha</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -73,13 +71,13 @@
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
-			<version>3.0.6</version>
+			<version>3.0.7</version>
 		</dependency>
 
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>s3</artifactId>
-			<version>2.31.40</version>
+			<version>2.44.12</version>
 		</dependency>
 
 		<dependency>
