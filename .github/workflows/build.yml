@@ -85,31 +85,49 @@ jobs:
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}
+
+      - name: Install Playwright Chromium
+        working-directory: frontend
+        timeout-minutes: 15
+        run: npx playwright install chromium --with-deps
+
       - name: Build backend for E2E
-        run: mvn -q compile
+        run: mvn -q -Pe2e package -DskipTests
 
       - name: Start backend (E2E profile)
         run: |
-          mvn spring-boot:run -Pe2e -Dspring-boot.run.profiles=e2e > backend.log 2>&1 & echo $! > backend.pid
+          java -jar target/thankyouboard-*.jar --spring.profiles.active=e2e > backend.log 2>&1 &
+          echo $! > backend.pid
 
       - name: Wait for backend to be ready
         run: |
-          for i in $(seq 1 30); do
+          for i in $(seq 1 60); do
             if curl -fsS http://localhost:8080/actuator/health > /dev/null; then
-              echo "Backend is up"
-              break
+              echo "Backend is up (attempt $i)"
+              exit 0
             fi
-            echo "Waiting for backend... (attempt $i/30)"
+            if [ -f backend.pid ] && ! kill -0 "$(cat backend.pid)" 2>/dev/null; then
+              echo "Backend process exited before becoming ready"
+              echo "--- Backend log ---"
+              cat backend.log || true
+              exit 1
+            fi
+            echo "Waiting for backend... (attempt $i/60)"
             sleep 5
           done
-          if ! curl -fsS http://localhost:8080/actuator/health > /dev/null; then
-            echo "Backend failed to start in time"
-            kill $BACKEND_PID 2>/dev/null || true
-            exit 1
-          fi
-          cd frontend
-          npm ci
-          npx playwright install --with-deps
+          echo "Backend failed to start in time"
+          echo "--- Backend log ---"
+          cat backend.log || true
+          exit 1
 
       - name: Run Playwright E2E tests
         working-directory: frontend
