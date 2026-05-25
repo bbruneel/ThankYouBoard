@@ -89,29 +89,14 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}
-
-      - name: Install Playwright Chromium
-        working-directory: frontend
-        timeout-minutes: 10
+      - name: Install Chrome for Playwright (CI)
         run: |
-          npx playwright install-deps chromium
-          for attempt in 1 2 3; do
-            echo "Installing Playwright Chromium headless shell (attempt $attempt/3)..."
-            if npx playwright install chromium --only-shell; then
-              echo "Playwright Chromium ready"
-              exit 0
-            fi
-            echo "Playwright install failed; clearing browser cache before retry"
-            rm -rf "$HOME/.cache/ms-playwright"
-            sleep 10
-          done
-          echo "Playwright install failed after 3 attempts"
-          exit 1
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install Playwright system dependencies
+        working-directory: frontend
+        run: npx playwright install-deps chromium
 
       - name: Build backend for E2E
         run: mvn -q -Pe2e package -DskipTests
