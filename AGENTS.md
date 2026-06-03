@@ -50,7 +50,7 @@ For local development, frontend secrets (`VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT
 ### Testing
 
 - **Backend tests:** `mvn test` (JUnit 5) — uses H2 in-memory DB, no external services needed.
-- **Frontend lint:** `cd frontend && npm run lint` — **CRITICAL:** has 2 pre-existing lint errors (not introduced by setup). Ignore them unless asked to fix them.
+- **Frontend lint:** `cd frontend && npm run lint` — should exit 0 with no problems. Fix any new lint errors you introduce; do not ignore failures.
 - **Frontend build:** `cd frontend && npm run build` — **CRITICAL:** has a pre-existing TypeScript type error in `AddPostModal.tsx` (Giphy type mismatch). Ignore it. The Vite dev server still works since it doesn't enforce strict TS compilation.
 - **Frontend E2E (Playwright):** Playwright browsers and Linux deps are pre-installed via the update script (`npx playwright install --with-deps`). To run: start the backend with `mvn spring-boot:run -Pe2e -Dspring-boot.run.profiles=e2e` (uses H2 in-memory DB, no PostgreSQL needed), then `cd frontend && npm run test:e2e`. The `-Pe2e` Maven profile adds the H2 runtime dependency; the `-Dspring-boot.run.profiles=e2e` activates `application-e2e.properties`. CI runs these tests in the `e2e` job with H2.
 
