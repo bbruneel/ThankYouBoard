@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@giphy/react-components';
 import type { GifsResult } from '@giphy/js-fetch-api';
 import type { Post } from '../types/post';
@@ -23,10 +23,18 @@ interface EditPostModalProps {
     onPostUpdated: (updated: Post) => void;
 }
 
+function giphyUrlToSelectedGif(giphyUrl: string | null | undefined): GiphyGif | null {
+    if (!giphyUrl) return null;
+    return {
+        id: 'existing',
+        images: { downsized_medium: { url: giphyUrl } },
+    };
+}
+
 export default function EditPostModal({ boardId, post, accessToken, capabilityToken, onClose, onPostUpdated }: EditPostModalProps) {
     const [authorName, setAuthorName] = useState(post.authorName ?? '');
     const [messageText, setMessageText] = useState(post.messageText ?? '');
-    const [selectedGif, setSelectedGif] = useState<GiphyGif | null>(null);
+    const [selectedGif, setSelectedGif] = useState<GiphyGif | null>(() => giphyUrlToSelectedGif(post.giphyUrl));
     const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(post.uploadedImageUrl ?? null);
     const [isUploadingImage, setIsUploadingImage] = useState(false);
 
@@ -35,15 +43,6 @@ export default function EditPostModal({ boardId, post, accessToken, capabilityTo
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [giphyUnconfigured, setGiphyUnconfigured] = useState(false);
-
-    useEffect(() => {
-        if (post.giphyUrl) {
-            setSelectedGif({
-                id: 'existing',
-                images: { downsized_medium: { url: post.giphyUrl } },
-            });
-        }
-    }, [post.giphyUrl]);
 
     const emptyGifResult = (status = 200, message = 'OK'): GifsResult => ({
         data: [],

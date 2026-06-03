@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Pencil, Plus, Sparkles, Trash2 } from 'lucide-react';
@@ -72,7 +72,7 @@ function DashboardWithAuth0() {
     const navigate = useNavigate();
     const [boards, setBoards] = useState<Board[]>([]);
     const [loading, setLoading] = useState(true);
-    const [hasTriggeredAuth0Logout, setHasTriggeredAuth0Logout] = useState(false);
+    const hasTriggeredAuth0LogoutRef = useRef(false);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [createTitle, setCreateTitle] = useState('');
     const [createRecipient, setCreateRecipient] = useState('');
@@ -82,25 +82,20 @@ function DashboardWithAuth0() {
     const [actionError, setActionError] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            setHasTriggeredAuth0Logout(false);
-        }
-    }, [isAuthenticated]);
-
     const ACCESS_TOKEN_TIMEOUT_MS = 8000;
-    const getAccessTokenSilentlyWithTimeout = async (): Promise<string> => {
+    const getAccessTokenSilentlyWithTimeout = useCallback(async (): Promise<string> => {
         return await Promise.race([
             getAccessTokenSilently(),
             new Promise<string>((_, reject) =>
                 setTimeout(() => reject(new Error('getAccessTokenSilently timed out')), ACCESS_TOKEN_TIMEOUT_MS),
             ),
         ]);
-    };
+    }, [getAccessTokenSilently]);
 
     useEffect(() => {
         const fetchBoards = async () => {
             if (!isAuthenticated) {
+                hasTriggeredAuth0LogoutRef.current = false;
                 setBoards([]);
                 setLoading(false);
                 return;
@@ -119,17 +114,17 @@ function DashboardWithAuth0() {
                     setBoards(data);
                 } else {
                     setBoards([]);
-                    if (res.status === 401 && !hasTriggeredAuth0Logout) {
-                        setHasTriggeredAuth0Logout(true);
+                    if (res.status === 401 && !hasTriggeredAuth0LogoutRef.current) {
+                        hasTriggeredAuth0LogoutRef.current = true;
                         logout({
                             logoutParams: { returnTo: window.location.origin },
                         });
                     }
                 }
-            } catch (err) {
+            } catch {
                 setBoards([]);
-                if (!hasTriggeredAuth0Logout) {
-                    setHasTriggeredAuth0Logout(true);
+                if (!hasTriggeredAuth0LogoutRef.current) {
+                    hasTriggeredAuth0LogoutRef.current = true;
                     logout({
                         logoutParams: { returnTo: window.location.origin },
                     });
@@ -139,7 +134,7 @@ function DashboardWithAuth0() {
             }
         };
         fetchBoards();
-    }, [isAuthenticated, getAccessTokenSilently, logout, hasTriggeredAuth0Logout]);
+    }, [isAuthenticated, getAccessTokenSilentlyWithTimeout, logout]);
 
     const handleCreateBoard = async (e: React.FormEvent) => {
         e.preventDefault();
