@@ -12,31 +12,31 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.22.0",
+    "@auth0/auth0-react": "^2.22.1",
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",
     "@giphy/js-fetch-api": "^5.8.0",
     "@giphy/react-components": "^10.1.2",
-    "@tiptap/extension-placeholder": "^3.29.0",
-    "@tiptap/extension-text-align": "^3.29.0",
-    "@tiptap/extension-underline": "^3.29.0",
-    "@tiptap/pm": "^3.29.0",
-    "@tiptap/react": "^3.29.0",
-    "@tiptap/starter-kit": "^3.29.0",
+    "@tiptap/extension-placeholder": "^3.29.2",
+    "@tiptap/extension-text-align": "^3.29.2",
+    "@tiptap/extension-underline": "^3.29.2",
+    "@tiptap/pm": "^3.29.2",
+    "@tiptap/react": "^3.29.2",
+    "@tiptap/starter-kit": "^3.29.2",
     "emoji-mart": "^5.6.0",
     "lucide-react": "^0.575.0",
     "dompurify": "^3.4.12",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.1",
+    "react-router-dom": "^7.18.2",
     "styled-components": "^6.4.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^24.13.3",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^5.2.0",
     "eslint": "^9.39.5",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -47,13 +47,13 @@
     "vite": "^7.3.6"
   },
   "overrides": {
-    "brace-expansion": "5.0.8",
+    "brace-expansion": "5.0.9",
     "esbuild": "^0.28.1",
     "minimatch@3": {
-      "brace-expansion": "1.1.16"
+      "brace-expansion": "1.1.17"
     },
     "minimatch@10": {
-      "brace-expansion": "5.0.8"
+      "brace-expansion": "5.0.9"
     },
     "flatted": "^3.4.2",
     "js-cookie": "^3.0.7",
