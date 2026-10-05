@@ -38,6 +38,8 @@ jobs:
           files: target/site/jacoco/jacoco.xml
           flags: backend
           fail_ci_if_error: true
+          # cli.codecov.io TLS handshake fails on GitHub-hosted OpenSSL 3.0.x runners (2026-10)
+          use_pypi: true
 
       - name: Build Lambda functions
         run: cd functions && mvn package -B
