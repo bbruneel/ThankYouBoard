@@ -32,12 +32,15 @@ jobs:
         run: mvn test -B
 
       - name: Upload coverage to Codecov
+        # Codecov CLI download (cli.codecov.io) and ingest currently fail on GHA; do not block build/e2e
+        continue-on-error: true
         uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: target/site/jacoco/jacoco.xml
           flags: backend
           fail_ci_if_error: true
+          use_pypi: true
 
       - name: Build Lambda functions
         run: cd functions && mvn package -B
